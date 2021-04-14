@@ -38,7 +38,7 @@ tar xfz $SRC_ROOT_DIR/distribution/server/target/apache-pulsar-$POM_VERSION-src.
 pushd $CPP_DIR
 
 cmake . -DBUILD_TESTS=OFF -DLINK_STATIC=ON
-make pulsarShared pulsarSharedNossl pulsarStatic pulsarStaticWithDeps  -j 3
+make pulsarShared pulsarSharedNossl pulsarStatic pulsarStaticWithDeps  -j 8
 popd
 
 DEST_DIR=apache-pulsar-client
@@ -47,7 +47,7 @@ cat <<EOF > $DEST_DIR/DEBIAN/control
 Package: apache-pulsar-client
 Version: ${VERSION}
 Maintainer: Apache Pulsar <dev@pulsar.apache.org>
-Architecture: amd64
+Architecture: $(dpkg-architecture -qDEB_TARGET_ARCH)
 Description: The Apache Pulsar client contains a C++ and C APIs to interact with Apache Pulsar brokers.
 EOF
 
@@ -57,7 +57,7 @@ cat <<EOF > $DEVEL_DEST_DIR/DEBIAN/control
 Package: apache-pulsar-client-dev
 Version: ${VERSION}
 Maintainer: Apache Pulsar <dev@pulsar.apache.org>
-Architecture: amd64
+Architecture: $(dpkg-architecture -qDEB_TARGET_ARCH)
 Depends: apache-pulsar-client
 Description: The Apache Pulsar client contains a C++ and C APIs to interact with Apache Pulsar brokers.
 EOF
